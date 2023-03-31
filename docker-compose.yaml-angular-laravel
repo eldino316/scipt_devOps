@@ -10,10 +10,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_USER: devops
-      MYSQL_DATABASE: paper
-      MYSQL_PASSWORD: SNjSQRDST53OF12W
-      MYSQL_ROOT_PASSWORD: SNjSQRDST53OF12W
+      MYSQL_USER: 
+      MYSQL_DATABASE: 
+      MYSQL_PASSWORD: 
+      MYSQL_ROOT_PASSWORD: 
     volumes:
       - hd:/var/lib/mysql
 
