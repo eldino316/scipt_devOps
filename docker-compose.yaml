@@ -4,10 +4,10 @@ services:
   db:
     image: mysql:latest
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=prestationdb
-      - MYSQL_USER=devops
-      - MYSQL_PASSWORD=root2toor
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=
+      - MYSQL_USER=
+      - MYSQL_PASSWORD=
     ports:
       - "3307:3306"
     volumes:
@@ -16,20 +16,20 @@ services:
   frontend:
     build: ./frontend
     environment:
-      - API_URL=http://212.73.150.24:8081/api/
+      - API_URL=http://IP:8081/api/
     ports:
       - "3000:80"
 
   backend:
     build: ./backend
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://212.73.150.24:3307/prestationdb?useUnicode=true&useJDBCCompliantTimeZoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-      - SPRING_DATASOURCE_USERNAME=devops
-      - SPRING_DATASOURCE_PASSWORD=root2toor
-      - SPRING_KEYCLOAK_URL=https://accounts.relia-consulting.com
-      - SPRING_KEYCLOAK_USERNAME=devops
-      - SPRING_KEYCLOAK_PASSWORD=SNjSQRDST53OF12W
-      - SPRING_KEYCLOAK_SECRET=R5b1mwQIOCgKm4Z2OpuCxwGYKzdyzKED
+      - SPRING_DATASOURCE_URL=jdbc:mysql://IP:3307/db?useUnicode=true&useJDBCCompliantTimeZoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_KEYCLOAK_URL=https://url
+      - SPRING_KEYCLOAK_USERNAME=
+      - SPRING_KEYCLOAK_PASSWORD=
+      - SPRING_KEYCLOAK_SECRET=
     ports:
       - "8081:8081"
     depends_on:
