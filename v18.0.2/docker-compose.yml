@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+    mysql-db:
+        container_name: keycloak18-mysql
+        image: mysql:latest
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        ports:
+            - 3309:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD=root2toor
+            - MYSQL_DATABASE=keycloak
+            - MYSQL_USER=devops
+            - MYSQL_PASSWORD=root2toor
+        volumes:
+            - kc_data:/var/lib/mysql
+
+    keycloak-auth:
+        container_name: keycloak18
+        command: start --auto-build
+        image: quay.io/keycloak/keycloak:18.0.2
+        depends_on:
+            - mysql-db
+        ports:
+            - "8083:8080"
+        environment:
+            - KEYCLOAK_ADMIN=devops
+            - KEYCLOAK_ADMIN_PASSWORD=SNjSQRDST53OF12W
+            - KC_DB=mysql
+            - KC_DB_URL_HOST=mysql-db
+            - KC_DB_URL_PORT=3306
+            - KC_DB_URL_DATABASE=keycloak
+            - KC_DB_USERNAME=devops
+            - KC_DB_PASSWORD=root2toor
+            - KC_HOSTNAME_ADMIN=accounts.relia-consulting.com
+            - KC_HOSTNAME_STRICT=true
+            - KC_PROXY=edge
+            - KC_HOSTNAME=accounts.relia-consulting.com
+            - KC_HOSTNAME_STRICT_HTTPS=true
+
+volumes:
+  kc_data:

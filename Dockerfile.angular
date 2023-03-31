@@ -1,0 +1,31 @@
+# Etape de construction
+FROM node:16.13 AS build
+
+# Définissez le répertoire de travail
+WORKDIR /app
+
+# Copiez le fichier package.json et le fichier package-lock.json
+COPY package*.json ./
+
+# Installez les dépendances
+RUN npm install
+
+# Copiez tous les fichiers de l'application dans le conteneur
+COPY . ./
+
+# Exécutez la commande de construction de l'application
+RUN npm run build && find . -depth -maxdepth 1 ! -name dist ! -name node_modules -exec rm -rf {} \; 2> /dev/null
+
+# Utilisez l'image Nginx
+FROM nginx:latest
+
+WORKDIR /usr/share/nginx/html
+
+# Copiez les fichiers de l'application générés dans l'étape de construction
+COPY --from=build /app/dist/ ./
+
+# Exposez le port 80
+EXPOSE 80
+
+# Démarrez Nginx lors du lancement du conteneur
+CMD ["nginx", "-g", "daemon off;"]

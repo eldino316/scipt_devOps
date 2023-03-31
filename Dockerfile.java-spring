@@ -1,0 +1,19 @@
+FROM maven:3.8.4-openjdk-11 AS buildstage
+
+WORKDIR /app
+
+COPY . .
+
+RUN mvn package
+
+FROM openjdk:11 AS runstage
+
+COPY --from=buildstage /app/target/gestion_presation.jar .
+
+EXPOSE 8080
+
+RUN adduser --system --group spring
+
+USER spring
+
+ENTRYPOINT ["java", "-jar", "gestion_presation.jar"]

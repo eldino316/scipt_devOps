@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+
+  mysql:
+    image: mysql:8.0.31
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: devops
+      MYSQL_DATABASE: paper
+      MYSQL_PASSWORD: SNjSQRDST53OF12W
+      MYSQL_ROOT_PASSWORD: SNjSQRDST53OF12W
+    volumes:
+      - hd:/var/lib/mysql
+
+  angular:
+    build:
+      context: ./front-web
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+
+  laravel:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: 'php artisan serve --host=0.0.0.0'
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5
+    env_file:
+        - ./api/.env
+    ports:
+      - "9000:8000"
+    depends_on:
+      - mysql
+
+
+volumes:
+  hd:
